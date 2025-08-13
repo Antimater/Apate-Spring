@@ -6,9 +6,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import guru.springframework.spring6webapp.domain.Book;
+import guru.springframework.spring6webapp.domain.Publisher;
 import guru.springframework.spring6webapp.domain.Author;
 
 import guru.springframework.spring6webapp.repositories.BookRepository;
+import guru.springframework.spring6webapp.repositories.PublisherRepository;
 import guru.springframework.spring6webapp.repositories.AuthorRepository;
 
 
@@ -19,12 +21,16 @@ public class BootstrapData implements CommandLineRunner {
 
 	private final AuthorRepository authorRepository;
 	private final BookRepository bookRepository;
+	private final PublisherRepository publisherRepository;
 	private static Logger logger = LogManager.getLogger(BootstrapData.class);
 	
 
-	public BootstrapData(AuthorRepository authorRepository, BookRepository bookRepository) {
+	public BootstrapData(AuthorRepository authorRepository, BookRepository bookRepository,
+			PublisherRepository publisherRepository) 
+	{
 		this.authorRepository = authorRepository;
 		this.bookRepository = bookRepository;
+		this.publisherRepository = publisherRepository;
 	}
 
 	@Override
@@ -53,15 +59,25 @@ public class BootstrapData implements CommandLineRunner {
 
 		ericSaved.getBook().add(dddSaved);
 		rodSaved.getBook().add(noEJBSaved);
+		
+		Publisher publisher = new Publisher();
+		publisher.setPublisherName("My Publisher");
+		publisher.setAddress("123 Main");
+		Publisher savedPublisher = publisherRepository.save(publisher);
 
 		authorRepository.save(ericSaved);
 		authorRepository.save(rodSaved);
+		bookRepository.save(dddSaved);
+		bookRepository.save(noEJBSaved);
+		publisherRepository.save(savedPublisher);		
 		
 		logger.trace("In Bootstrap");
 		logger.trace("Author Count: " + authorRepository.count());
 		
-		System.out.println("In Bootstra");
+		System.out.println("In Bootstrap");
 		System.out.println("Author Count: " + authorRepository.count());
+		System.out.println("Book Count: " + bookRepository.count());
+		System.out.println("Publisher Count: " + publisherRepository.count());
 
 	}
 
