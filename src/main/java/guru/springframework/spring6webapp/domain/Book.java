@@ -25,7 +25,7 @@ public class Book {
 
 	@ManyToMany
 	@JoinTable(name = "author_book", joinColumns = @JoinColumn(name = " book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
-	private Set<Author> author = new HashSet<>();
+	private Set<Author> authors = new HashSet<>();
 	
 	@ManyToOne
 	private Publisher publisher;
@@ -52,12 +52,12 @@ public class Book {
 		this.id = id;
 	}
 
-	public Set<Author> getAuthor() {
-		return author;
+	public Set<Author> getAuthors() {
+		return authors;
 	}
 
-	public void setAuthor(Set<Author> author) {
-		this.author = author;
+	public void setAuthor(Set<Author> authors) {
+		this.authors = authors;
 	}
 
 	public void setTitle(String title) {
@@ -74,7 +74,7 @@ public class Book {
 
 	@Override
 	public String toString() {
-		return "Book [id=" + id + ", title=" + title + ", isbn=" + isbn + ", author=" + author + "]";
+		return "Book [id=" + id + ", title=" + title + ", isbn=" + isbn + ", authors=" + authors + "]";
 	}
 
 	@Override

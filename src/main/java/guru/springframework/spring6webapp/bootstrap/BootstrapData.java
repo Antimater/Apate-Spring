@@ -35,14 +35,17 @@ public class BootstrapData implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+		// Create author eric
 		Author eric = new Author();
 		eric.setFirstName("Eric");
 		eric.setLastName("Evans");
-
+		
+		//create book domain driven design
 		Book ddd = new Book();
 		ddd.setTitle("Domain Driven Design");
 		ddd.setIsbn("123456");
-
+		
+		//save author and book to repo
 		Author ericSaved = authorRepository.save(eric);
 		Book dddSaved = bookRepository.save(ddd);
 
@@ -56,14 +59,25 @@ public class BootstrapData implements CommandLineRunner {
 
 		Author rodSaved = authorRepository.save(rod);
 		Book noEJBSaved = bookRepository.save(noEJB);
+		
+		
 
 		ericSaved.getBook().add(dddSaved);
 		rodSaved.getBook().add(noEJBSaved);
+		dddSaved.getAuthors().add(ericSaved);
+		noEJBSaved.getAuthors().add(rodSaved);
 		
+		
+		
+		//create publisher
 		Publisher publisher = new Publisher();
 		publisher.setPublisherName("My Publisher");
 		publisher.setAddress("123 Main");
+		
 		Publisher savedPublisher = publisherRepository.save(publisher);
+		
+		dddSaved.setPublisher(savedPublisher);
+		noEJBSaved.setPublisher(savedPublisher);
 
 		authorRepository.save(ericSaved);
 		authorRepository.save(rodSaved);
